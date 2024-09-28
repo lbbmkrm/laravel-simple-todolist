@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use App\Service\Implement\UserServiceImpl;
 use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -24,5 +25,24 @@ class UserControllerTest extends TestCase
 
         $this->get('/login')
             ->assertStatus(200);
+    }
+
+    public function testLogin()
+    {
+        $this->seed(UserSeeder::class);
+        $this->post('/login', [
+            'email' => 'admin@example.com',
+            'password' => 'root'
+        ])->assertRedirect('/');
+    }
+
+    public function testLogout()
+    {
+        $this->seed(UserSeeder::class);
+        $this->withSession([
+            "email" => "admin@example.com"
+        ])->post("/logout")
+            ->assertRedirect("/")
+            ->assertSessionMissing("user");
     }
 }

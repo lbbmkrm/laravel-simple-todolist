@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TodolistController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\LoginMiddleware;
 use App\Http\Middleware\LogoutMiddleware;
@@ -13,5 +14,11 @@ Route::controller(UserController::class)->group(function () {
     Route::post('/login', 'login')->middleware(LogoutMiddleware::class);
     Route::get('/register', 'viewRegister');
     Route::post('/register', 'register');
-    Route::post('/login', 'logout')->middleware(LoginMiddleware::class);
+    Route::post('/logout', 'logout')->middleware(LoginMiddleware::class);
+});
+
+Route::controller(App\Http\Controllers\TodolistController::class)->middleware(LoginMiddleware::class)->group(function () {
+    Route::get('/todolist', 'index')->name('todolist.index');
+    Route::post('/todolist', 'saveTodo');
+    Route::post('/todolist/remove', 'removeTodo');
 });

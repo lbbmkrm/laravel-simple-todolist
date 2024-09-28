@@ -22,7 +22,7 @@ class TodolistController extends Controller
         ]);
     }
 
-    public function save(Request $request)
+    public function saveTodo(Request $request)
     {
         $id = uniqid();
         $todo = $request['todo'];
@@ -31,7 +31,6 @@ class TodolistController extends Controller
 
         //validasi
         $request->validate([
-            'id' => 'required|unique',
             'todo' => 'required',
             'description' => 'string'
         ]);
@@ -39,12 +38,12 @@ class TodolistController extends Controller
         //save todo
         $this->todolistService->saveTodo($id, $todo, $desc);
 
-        return redirect()->action(TodolistController::class, 'index');
+        return redirect()->route('todolist.index');
     }
 
     public function removeTodo(Request $request)
     {
         $this->todolistService->removeTodo($request['id']);
-        return redirect()->action(TodolistController::class, 'index');
+        return redirect()->route('todolist.index');
     }
 }
