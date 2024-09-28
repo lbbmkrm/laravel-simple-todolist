@@ -21,27 +21,34 @@ class UserController extends Controller
         return response()->view('user.login', ['tittle' => 'Login']);
     }
 
-    public function login(Request $request): Response
+    public function login(Request $request)
     {
         $email = $request->input('email');
         $password = $request->input('password');
-        //validasi input
-        $validation = Validator::make([$email, $password], [
+
+        // Validasi input
+        $validation = Validator::make([
+            'email' => $email,
+            'password' => $password
+        ], [
             'email' => 'required|email',
             'password' => 'required'
         ]);
+
         $validation->validate();
 
-        //login
+        // Login
         if ($this->userService->login(email: $email, password: $password)) {
             $request->session()->put('email', $email);
+            return redirect('/');
         }
 
         return response()->view('user.login', [
             'tittle' => 'Login',
-            'error' => $validation->errors()
+            'error' => 'Login failed, incorrect email or password'
         ], 401);
     }
+
 
     public function resgister(Request $request): Response
     {

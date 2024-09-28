@@ -9,7 +9,7 @@ class HomeController extends Controller
 {
     public function home(Request $request): RedirectResponse
     {
-        if ($request->session()->exists("username")) {
+        if ($request->session()->exists("email")) {
             return redirect("/todolist");
         } else {
             return redirect("/login");
