@@ -20,5 +20,5 @@ Route::controller(UserController::class)->group(function () {
 Route::controller(App\Http\Controllers\TodolistController::class)->middleware(LoginMiddleware::class)->group(function () {
     Route::get('/todolist', 'index')->name('todolist.index');
     Route::post('/todolist', 'saveTodo');
-    Route::post('/todolist/remove', 'removeTodo');
+    Route::delete('/todolist/remove/{id}', 'removeTodo');
 });

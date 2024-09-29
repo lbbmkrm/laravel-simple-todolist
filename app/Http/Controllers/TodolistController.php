@@ -18,7 +18,7 @@ class TodolistController extends Controller
         $todolist = $this->todolistService->getTodo();
         return response()->view('todolist.index', [
             'tittle' => 'Todolist',
-            'todo' => $todolist,
+            'todolist' => $todolist,
         ]);
     }
 
@@ -26,24 +26,23 @@ class TodolistController extends Controller
     {
         $id = uniqid();
         $todo = $request['todo'];
-        $desc = $request['description'];
 
 
         //validasi
         $request->validate([
             'todo' => 'required',
-            'description' => 'string'
+
         ]);
 
         //save todo
-        $this->todolistService->saveTodo($id, $todo, $desc);
+        $this->todolistService->saveTodo($id, $todo);
 
         return redirect()->route('todolist.index');
     }
 
-    public function removeTodo(Request $request)
+    public function removeTodo(Request $request, string $id)
     {
-        $this->todolistService->removeTodo($request['id']);
+        $this->todolistService->removeTodo($id);
         return redirect()->route('todolist.index');
     }
 }

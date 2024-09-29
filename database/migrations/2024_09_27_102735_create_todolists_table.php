@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('todolists', function (Blueprint $table) {
             $table->string('id')->nullable(false)->primary();
             $table->string('todo')->nullable(false);
-            $table->text('description')->nullable(true);
             $table->timestamps();
         });
     }
